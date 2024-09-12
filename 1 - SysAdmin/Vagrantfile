@@ -1,0 +1,60 @@
+# -*- mode: ruby -*-
+# vi: set ft=ruby :
+
+Vagrant.configure("2") do |config|
+
+# Configuracion de la caja 1 WordPress
+    config.vm.define "ubuntu1" do |ubuntu1|
+    ubuntu1.vm.box = "ubuntu/focal64"
+    ubuntu1.vm.box_check_update = false
+    
+# Configuracion Red
+    ubuntu1.vm.hostname = "wordpress"
+    ubuntu1.vm.network "private_network", ip: "192.168.20.10", nic_type: "virtio", virtualbox__intnet: "Practica"
+    ubuntu1.vm.network "forwarded_port", guest: 80, host:8082
+
+  # Configuracion del proveedor
+
+      ubuntu1.vm.provider "virtualbox" do |vb|
+       
+       vb.memory = "2048"
+       vb.cpus = 2
+       file_to_disk = "extradisk1.vmdk"
+      unless File.exist?(file_to_disk)
+      vb.customize [ "createmedium", "disk", "--filename", "extradisk1.vmdk", "--format", "vmdk", "--size", 1024 * 1 ]
+  end
+      vb.customize [ "storageattach", :id, "--storagectl", "SCSI", "--port", "2", "--device", "0", "--type", "hdd", "--medium", file_to_disk]
+end
+    ubuntu1.vm.provision "file", source: "./filebeat.yml", destination: "$HOME/"
+    ubuntu1.vm.provision "shell", path: "wp.sh"
+  end
+
+
+
+# Configuracion Caja 2 ELK
+
+    config.vm.define "ubuntu2" do |ubuntu2|
+      ubuntu2.vm.box = "ubuntu/focal64"
+      ubuntu2.vm.box_check_update = false
+
+# Configuracion Red
+      ubuntu2.vm.hostname = "elk"
+      ubuntu2.vm.network "private_network", ip: "192.168.20.20", nic_type: "virtio", virtualbox__intnet: "Practica"
+      ubuntu2.vm.network "forwarded_port", guest: 80, host:8083
+      ubuntu2.vm.network "forwarded_port", guest: 5044, host:5044
+      ubuntu2.vm.network "forwarded_port", guest: 9200, host:9200
+
+  # Configuracion del proveedor
+
+    ubuntu2.vm.provider "virtualbox" do |vb|
+      vb.memory = "4096"
+      vb.cpus = 1
+      file_to_disk = "extradisk2.vmdk"
+      unless File.exist?(file_to_disk)
+        vb.customize [ "createmedium", "disk", "--filename", "extradisk2.vmdk", "--format", "vmdk", "--size", 1024 * 1 ]
+     end
+        vb.customize [ "storageattach", :id, "--storagectl", "SCSI", "--port", "3", "--device", "0", "--type", "hdd", "--medium", file_to_disk] 
+    end
+    ubuntu2.vm.provision "shell", path: "elk.sh"
+  end
+end
