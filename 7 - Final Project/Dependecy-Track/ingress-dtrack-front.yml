@@ -1,0 +1,14 @@
+---
+apiVersion: "networking.k8s.io/v1"
+kind: "Ingress"
+metadata:
+  name: "ingress-dt-front"
+  namespace: "default"
+spec:
+  defaultBackend:
+    service:
+      name: "dtrack-frontend"
+      port:
+        number: 8080
+status:
+  loadBalancer: {}

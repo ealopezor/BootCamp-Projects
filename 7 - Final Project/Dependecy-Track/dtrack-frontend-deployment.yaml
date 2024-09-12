@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.26.0 (40646f47)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: dtrack-frontend
+  name: dtrack-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: dtrack-frontend
+  strategy: {}
+  template:
+    metadata:
+      annotations:
+        kompose.cmd: kompose convert
+        kompose.version: 1.26.0 (40646f47)
+      creationTimestamp: null
+      labels:
+        io.kompose.service: dtrack-frontend
+    spec:
+      containers:
+        - env:
+            - name: API_BASE_URL
+              value: http://localhost:8081
+          image: dependencytrack/frontend
+          name: dtrack-frontend
+          ports:
+            - containerPort: 8080
+          resources: {}
+      restartPolicy: Always
+status: {}
