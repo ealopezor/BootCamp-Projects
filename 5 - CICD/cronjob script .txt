@@ -1,0 +1,8 @@
+job('DSL test'){
+  triggers {
+    scm('*/2 * * * *')
+  }
+  steps{
+    maven('-e clean test')
+  }
+}  

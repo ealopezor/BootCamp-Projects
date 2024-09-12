@@ -1,0 +1,31 @@
+Started by timer
+[Sun Apr 16 19:14:07 CEST 2023] Starting branch indexing...
+Connecting to https://api.github.com using ealopezor/****** (github)
+Examining KeepCodingCloudDevops7/Practica-CICD-Eduardo-Hernandez
+
+  Checking branches...
+
+  Getting remote branches...
+
+    Checking branch main
+      ‘Jenkinsfile’ found
+    Met criteria
+No changes detected: main (still at ae152c2537395ee472b1221d7c2f887fd37a113b)
+
+    Checking branch develop
+      ‘Jenkinsfile’ found
+    Met criteria
+No changes detected: develop (still at 5b7b120d91f7713ae004a674b03fd4e0c99611eb)
+
+  2 branches were processed
+
+  Checking pull-requests...
+
+  Getting remote pull requests...
+
+  0 pull requests were processed
+
+Finished examining KeepCodingCloudDevops7/Practica-CICD-Eduardo-Hernandez
+
+[Sun Apr 16 19:14:08 CEST 2023] Finished branch indexing. Indexing took 1.4 sec
+Finished: SUCCESS

@@ -1,0 +1,39 @@
+services:
+  jenkins_agent:
+    image: jenkins/ssh-agent:jdk11
+    privileged: true
+    container_name: $JENKINS_CONTAINER_NAME
+    expose:
+      - 22
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=$JENKINS_AGENT_SSH_PUBKEY
+    secrets:
+      - host_ssh_key
+    networks:
+      mynetwork:
+        ipv4_address: 192.168.1.200
+
+  jenkins_agent_2:
+    image: jenkins/ssh-agent:latest-jdk11
+    privileged: true
+    container_name: $JENKINS_CONTAINER_NAME_2
+    expose:
+      - 22
+    environment:
+      - JENKINS_AGENT_SSH_PUBKEY=$JENKINS_AGENT_SSH_PUBKEY
+    secrets:
+      - host_ssh_key
+    networks:
+      mynetwork:
+        ipv4_address: 192.168.1.201
+
+secrets:
+  host_ssh_key:
+    file: ~/.ssh/jenkins_agent_key.pub
+
+networks:
+  mynetwork:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 192.168.1.200/28
