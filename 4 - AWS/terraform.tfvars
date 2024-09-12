@@ -1,0 +1,1 @@
+s3_bucket = "practica-edu-bucket-s3"
